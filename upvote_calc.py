@@ -1,28 +1,15 @@
 import numpy as np
 
 def calc_reddit(v,r):
-    down = np.arange(100)
-    up = np.arange(100)+v
-    total = up+down
-    dmin = r
-    for d,u,t in zip(down,up,total):
-        new_u = u+1
-        new_t = t+1
-        new_r = new_u/new_t
-        diff_r = np.abs(r-new_r)
-        if diff_r < dmin:
-            dmin = diff_r
-        else:
-            old_u=u-1
-            old_d=d-1
-            old_t=t-2
-            old_r=(old_u+1)/(old_t+1)
-            print(f'(solved after {d} iterations)')
-            print(f'\t{old_u} upvotes + {old_d} downvotes: {old_t} total votes')   
-            print(f'\treal upvotes + freeby: {old_u+1} padded upvotes')         
-            print(f'\t{old_t} votes + freeby: {old_t+1} padded votes') 
-            print(f'\t{(old_u+1)}/{(old_t+1)}: {int(round(100*old_r,0))}% upvote rate')
-            break
+    up = int(round((((v-1)*r)+1)/((2*r)-1),1))
+    down = up-v
+    cr=(up+1)/((up+down)+1)
+    dr=100*(r-cr)
+    print(f'\t{up} upvotes + {down} downvotes: {up+down} total votes')   
+    print(f'\treal upvotes + freeby: {up+1} padded upvotes')         
+    print(f'\t{up+down} votes + freeby: {up+down+1} padded votes') 
+    print(f'\t{(up)}/{(up+down+1)}: {int(round(100*cr,0))}% upvote rate')
+    print(f'\t{round(dr,2)}% error')
 
 def prompt_calc():
     score = int(input('What is the post score (upvotes-downvotes)?\n\t'))
